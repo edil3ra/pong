@@ -26,6 +26,7 @@ export const BALL_Y = WIN_HEIGHT / 2
 export const BALL_COLOR = ex.Color.Red
 export const BALL_INIT_SPEED = 150
 
+export const TIME_COLLISION_DETECTION = 100
 
 
 

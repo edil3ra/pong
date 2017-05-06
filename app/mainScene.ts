@@ -17,7 +17,8 @@ import {
   BALL_X,
   BALL_Y,
   BALL_COLOR,
-  BALL_INIT_SPEED
+  BALL_INIT_SPEED,
+  TIME_COLLISION_DETECTION
 } from './config'
 
 
@@ -35,6 +36,7 @@ export class MainScene extends ex.Scene {
   private paddleBottom: Paddle
   private ball: Ball
 
+  private timer:number = 0
   
   constructor(game: ex.Engine) {
     super(game)
@@ -104,25 +106,22 @@ export class MainScene extends ex.Scene {
 	this.updatePaddle2(engine)
 	this.updateBallOut(engine)
 
+	this.timer += delta
 
-	// paddleTop collision
-	if(this.ball.collides(this.paddleTop)) {
-	  this.ballCollision(this.paddleTop)
+	if(this.timer >= TIME_COLLISION_DETECTION) {
+	  this.timer = 0
+	  if(this.ball.collides(this.paddleTop)) {
+		this.ballCollision(this.paddleTop)
+	  }
+
+	  if(this.ball.collides(this.paddleBottom)) {
+		this.ballCollision(this.paddleBottom)
+	  }
+	  
 	}
-
-	if(this.ball.collides(this.paddleBottom)) {
-	  this.ballCollision(this.paddleBottom)
-	}
-
-
-
-
-
   }
 
 
 }
-
-
 
 
