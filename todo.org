@@ -1,8 +1,8 @@
-* todo [3/3]
+* todo [4/4]
   + [X] add angle effect to the ball
   + [X] refactor the paddle name
   + [X] create two wall
-  + 
-  + 
+  + [X] make the wall bouncing ball
+  + [ ] make an ia for padding top
   + 
 	
