@@ -1,5 +1,6 @@
 * todo [1/1]
   + [X] add angle effect to the ball
+  + [ ] refactor the paddle name
   + [ ] create two invisible wall
   + 
   + 

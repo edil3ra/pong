@@ -4,14 +4,14 @@ import {
   WIN_HEIGHT,
   PADDLE_WIDTH,
   PADDLE_HEIGHT,
-  PADDLE1_X,
-  PADDLE1_Y,
-  PADDLE1_SPEED,
-  PADDLE2_X,
-  PADDLE2_Y,
-  PADDLE2_SPEED,
-  PADDLE1_COLOR,
-  PADDLE2_COLOR,
+  PADDLE_TOP_X,
+  PADDLE_TOP_Y,
+  PADDLE_TOP_SPEED,
+  PADDLE_BOTTOM_X,
+  PADDLE_BOTTOM_Y,
+  PADDLE_BOTTOM_SPEED,
+  PADDLE_TOP_COLOR,
+  PADDLE_BOTTOM_COLOR,
   BALL_WIDTH,
   BALL_HEIGHT,
   BALL_X,
@@ -31,8 +31,8 @@ export class MainScene extends ex.Scene {
 
   
   //Actor
-  private paddle1: Paddle
-  private paddle2: Paddle
+  private paddleTop: Paddle
+  private paddleBottom: Paddle
   private ball: Ball
 
   
@@ -41,11 +41,11 @@ export class MainScene extends ex.Scene {
   }
 
   onInitialize(engine: ex.Engine) {
-	this.paddle1 = new Paddle(PADDLE1_X, PADDLE1_Y, PADDLE_WIDTH, PADDLE_HEIGHT, PADDLE1_COLOR, PADDLE1_SPEED)
-	this.paddle2 = new Paddle(PADDLE2_X, PADDLE2_Y, PADDLE_WIDTH, PADDLE_HEIGHT, PADDLE2_COLOR, PADDLE2_SPEED)
+	this.paddleTop = new Paddle(PADDLE_TOP_X, PADDLE_TOP_Y, PADDLE_WIDTH, PADDLE_HEIGHT, PADDLE_TOP_COLOR, PADDLE_TOP_SPEED)
+	this.paddleBottom = new Paddle(PADDLE_BOTTOM_X, PADDLE_BOTTOM_Y, PADDLE_WIDTH, PADDLE_HEIGHT, PADDLE_BOTTOM_COLOR, PADDLE_BOTTOM_SPEED)
 	this.ball = new Ball(BALL_X, BALL_Y, BALL_WIDTH, BALL_HEIGHT, BALL_COLOR, BALL_INIT_SPEED)
 	
-	for (let actor of [this.paddle1, this.paddle2, this.ball]) {
+	for (let actor of [this.paddleTop, this.paddleBottom, this.ball]) {
 	  this.add(actor)
 	}
   }
@@ -53,13 +53,13 @@ export class MainScene extends ex.Scene {
 
   private updatePaddle2(engine: ex.Engine) {
 	if(engine.input.keyboard.isHeld(ex.Input.Keys.Left)) {
-	  this.paddle2.moveLeft()
+	  this.paddleBottom.moveLeft()
 	}
 	else if(engine.input.keyboard.isHeld(ex.Input.Keys.Right)) {
-	  this.paddle2.moveRight()
+	  this.paddleBottom.moveRight()
 	}
 	else {
-	  this.paddle2.moveNo()
+	  this.paddleBottom.moveNo()
 	}	
   }
 
@@ -69,14 +69,14 @@ export class MainScene extends ex.Scene {
 
   private updateBallOut(engine: ex.Engine) {
 	if(this.ball.y <= 0) {
-	  this.paddle1.restart()
-	  this.paddle2.restart()
+	  this.paddleTop.restart()
+	  this.paddleBottom.restart()
 	  this.ball.restart(-1)
 	}
 
 	if(this.ball.y >= WIN_HEIGHT) {
-	  this.paddle1.restart()
-	  this.paddle2.restart()
+	  this.paddleTop.restart()
+	  this.paddleBottom.restart()
 	  this.ball.restart(1)
 	}
   }	
@@ -105,13 +105,13 @@ export class MainScene extends ex.Scene {
 	this.updateBallOut(engine)
 
 
-	// paddle1 collision
-	if(this.ball.collides(this.paddle1)) {
-	  this.ballCollision(this.paddle1)
+	// paddleTop collision
+	if(this.ball.collides(this.paddleTop)) {
+	  this.ballCollision(this.paddleTop)
 	}
 
-	if(this.ball.collides(this.paddle2)) {
-	  this.ballCollision(this.paddle2)
+	if(this.ball.collides(this.paddleBottom)) {
+	  this.ballCollision(this.paddleBottom)
 	}
 
 
