@@ -108,13 +108,16 @@ export class MainScene extends ex.Scene {
 
 	this.timer += delta
 
+	
 	if(this.timer >= TIME_COLLISION_DETECTION) {
-	  this.timer = 0
+
 	  if(this.ball.collides(this.paddleTop)) {
+		this.timer = 0
 		this.ballCollision(this.paddleTop)
 	  }
 
 	  if(this.ball.collides(this.paddleBottom)) {
+		this.timer = 0
 		this.ballCollision(this.paddleBottom)
 	  }
 	  
