@@ -18,6 +18,14 @@ import {
   BALL_Y,
   BALL_COLOR,
   BALL_INIT_SPEED,
+  WALL_WIDTH,
+  WALL_HEIGHT,
+  WALL_LEFT_X,
+  WALL_LEFT_Y,
+  WALL_LEFT_COLOR,
+  WALL_RIGHT_X,
+  WALL_RIGHT_Y,
+  WALL_RIGHT_COLOR,
   TIME_COLLISION_DETECTION
 } from './config'
 
@@ -25,6 +33,7 @@ import {
 
 import { Paddle } from './paddle'
 import { Ball } from './ball'
+import { Wall } from './wall'
 
 
 
@@ -46,8 +55,19 @@ export class MainScene extends ex.Scene {
 	this.paddleTop = new Paddle(PADDLE_TOP_X, PADDLE_TOP_Y, PADDLE_WIDTH, PADDLE_HEIGHT, PADDLE_TOP_COLOR, PADDLE_TOP_SPEED)
 	this.paddleBottom = new Paddle(PADDLE_BOTTOM_X, PADDLE_BOTTOM_Y, PADDLE_WIDTH, PADDLE_HEIGHT, PADDLE_BOTTOM_COLOR, PADDLE_BOTTOM_SPEED)
 	this.ball = new Ball(BALL_X, BALL_Y, BALL_WIDTH, BALL_HEIGHT, BALL_COLOR, BALL_INIT_SPEED)
+
+	this.wallLeft = new Wall(WALL_LEFT_X, WALL_LEFT_Y, WALL_WIDTH, WALL_HEIGHT, WALL_LEFT_COLOR)
+	this.wallRight = new Wall(WALL_RIGHT_X, WALL_RIGHT_Y, WALL_WIDTH, WALL_HEIGHT, WALL_RIGHT_COLOR)
+
+	const actors = [
+	  this.paddleTop,
+	  this.paddleBottom,
+	  this.ball,
+	  this.wallLeft,
+	  this.wallRight,
+	]
 	
-	for (let actor of [this.paddleTop, this.paddleBottom, this.ball]) {
+	for (let actor of actors) {
 	  this.add(actor)
 	}
   }

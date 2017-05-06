@@ -19,7 +19,6 @@ export class Ball extends ex.Actor {
   }
   
   onInitialize(engine: ex.Engine): void {
-    // this.collisionType = ex.CollisionType.Elastic
 	this.restart(1)
   }
 

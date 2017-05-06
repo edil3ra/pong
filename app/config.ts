@@ -29,4 +29,14 @@ export const BALL_INIT_SPEED = 200
 export const TIME_COLLISION_DETECTION = 20
 
 
+export const WALL_WIDTH = 5
+export const WALL_HEIGHT = WIN_HEIGHT
 
+export const WALL_LEFT_X = 0 + WALL_WIDTH / 2
+export const WALL_LEFT_Y = 0 + WALL_HEIGHT / 2
+export const WALL_LEFT_COLOR = ex.Color.Yellow
+
+
+export const WALL_RIGHT_X = WIN_WIDTH - (WALL_WIDTH / 2)
+export const WALL_RIGHT_Y = 0 + WALL_HEIGHT / 2
+export const WALL_RIGHT_COLOR = ex.Color.Yellow
