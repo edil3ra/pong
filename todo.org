@@ -1,6 +1,6 @@
-* todo [5/5]
-  + 360 angle for the ball at 
-  + 
+* todo [1/1]
+  + [X] add angle effect to the ball
+  + [ ] create two invisible wall
   + 
   + 
   + 

@@ -1,8 +1,8 @@
 import * as ex from 'excalibur'
-import { BALL_INIT_SPEED } from './config'
 
 export class Ball extends ex.Actor {
 
+  private initSpeed: number
   private speed: number
   private initX: number
   private initY: number
@@ -14,11 +14,12 @@ export class Ball extends ex.Actor {
 	super(x, y, width, height, color)
 	this.initX = x
 	this.initY = y
+	this.initSpeed = speed
 	this.speed = speed
   }
   
   onInitialize(engine: ex.Engine): void {
-    this.collisionType = ex.CollisionType.Elastic
+    // this.collisionType = ex.CollisionType.Elastic
 	this.restart(1)
   }
 
@@ -26,10 +27,10 @@ export class Ball extends ex.Actor {
   restart(direction :number): void {
 	this.x = this.initX
 	this.y = this.initY
-	this.speed = BALL_INIT_SPEED
+	this.speed = this.initSpeed
 	this.vel.setTo(0, direction * this.speed)
   }
 
-
+  
 }
 
