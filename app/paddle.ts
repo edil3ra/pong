@@ -16,7 +16,7 @@ export class Paddle extends ex.Actor{
   }
   
   onInitialize(_engine: ex.Engine): void {
-	// this.collisionType = ex.CollisionType.Fixed
+	this.collisionType = ex.CollisionType.Elastic
   }
 
   public restart() {

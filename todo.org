@@ -3,6 +3,10 @@
   + [X] refactor the paddle name
   + [X] create two wall
   + [X] make the wall bouncing ball
-  + [ ] make an ia for padding top
-  + 
+  + [ ] make an ia the padding top, it's
+
 	
+
+* ia for the ball
+  the ia is just follwing the ball that's it :-)
+  the coordinate x of the ball and x of the paddle are used to move the bar, if the coordinate are too close we do nothing or it will be appearde like the bar is glitching

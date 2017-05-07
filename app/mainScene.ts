@@ -12,12 +12,12 @@ import {
   PADDLE_BOTTOM_SPEED,
   PADDLE_TOP_COLOR,
   PADDLE_BOTTOM_COLOR,
+  PADDLE_TOP_DISTANCE_ACTION,
   BALL_WIDTH,
   BALL_HEIGHT,
   BALL_X,
   BALL_Y,
   BALL_COLOR,
-  BALL_INIT_SPEED,
   WALL_WIDTH,
   WALL_HEIGHT,
   WALL_LEFT_X,
@@ -34,6 +34,7 @@ import {
 import { Paddle } from './paddle'
 import { Ball } from './ball'
 import { Wall } from './wall'
+import { Score } from './score'
 
 
 
@@ -46,9 +47,12 @@ export class MainScene extends ex.Scene {
   private ball: Ball
   private wallRight: Wall
   private wallLeft: Wall
+  private scoreTop: Score
+  private scoreBottom: Score
 
   private timer: number = 0
-
+  private hitCount: number = 0
+  
   constructor(game: ex.Engine) {
     super(game)
   }
@@ -56,16 +60,22 @@ export class MainScene extends ex.Scene {
   onInitialize(engine: ex.Engine) {
     this.paddleTop = new Paddle(PADDLE_TOP_X, PADDLE_TOP_Y, PADDLE_WIDTH, PADDLE_HEIGHT, PADDLE_TOP_COLOR, PADDLE_TOP_SPEED)
     this.paddleBottom = new Paddle(PADDLE_BOTTOM_X, PADDLE_BOTTOM_Y, PADDLE_WIDTH, PADDLE_HEIGHT, PADDLE_BOTTOM_COLOR, PADDLE_BOTTOM_SPEED)
-    this.ball = new Ball(BALL_X, BALL_Y, BALL_WIDTH, BALL_HEIGHT, BALL_COLOR, BALL_INIT_SPEED)
+    this.ball = new Ball(BALL_X, BALL_Y, BALL_WIDTH, BALL_HEIGHT, BALL_COLOR)
     this.wallLeft = new Wall(WALL_LEFT_X, WALL_LEFT_Y, WALL_WIDTH, WALL_HEIGHT, WALL_LEFT_COLOR)
     this.wallRight = new Wall(WALL_RIGHT_X, WALL_RIGHT_Y, WALL_WIDTH, WALL_HEIGHT, WALL_RIGHT_COLOR)
-
+	
+	this.scoreTop = new Score("0", 20, 100)
+	this.scoreBottom = new Score("0", 20, WIN_HEIGHT - 70 )
+	
+	
     const actors = [
       this.paddleTop,
       this.paddleBottom,
       this.ball,
       this.wallLeft,
       this.wallRight,
+      this.scoreTop,
+      this.scoreBottom,
     ]
 
     for (let actor of actors) {
@@ -74,7 +84,7 @@ export class MainScene extends ex.Scene {
   }
 
 
-  private updatePaddle2(engine: ex.Engine) {
+  private updatePaddleBottom(engine: ex.Engine) {
     if (engine.input.keyboard.isHeld(ex.Input.Keys.Left)) {
       this.paddleBottom.moveLeft()
     }
@@ -86,21 +96,39 @@ export class MainScene extends ex.Scene {
     }
   }
 
-  private updatePaddle1(engine: ex.Engine) {
+  private updatePaddleTop(engine: ex.Engine) {
+	const ballX = this.ball.x
+	const paddleTopX = this.paddleTop.x
+	const difference = ballX - paddleTopX
 
+	if(difference < -PADDLE_TOP_DISTANCE_ACTION) {
+	  this.paddleTop.moveLeft()
+	}
+	else if(difference > PADDLE_TOP_DISTANCE_ACTION) {
+	  this.paddleTop.moveRight()
+	}
+	else {
+	  this.paddleTop.moveNo()
+	}
   }
 
+  private restart(): void {
+    this.paddleTop.restart()
+    this.paddleBottom.restart()
+	this.hitCount = 0
+  }
+  
   private updateBallOut(engine: ex.Engine) {
     if (this.ball.y <= 0) {
-      this.paddleTop.restart()
-      this.paddleBottom.restart()
-      this.ball.restart(-1)
+	  this.restart()
+	  this.ball.restart(-1)
+	  this.scoreBottom.add()
     }
 
     if (this.ball.y >= WIN_HEIGHT) {
-      this.paddleTop.restart()
-      this.paddleBottom.restart()
+	  this.restart()
       this.ball.restart(1)
+	  this.scoreTop.add()
     }
   }
 
@@ -115,6 +143,8 @@ export class MainScene extends ex.Scene {
 
     this.ball.vel.y = -this.ball.vel.y
     this.ball.vel = this.ball.vel.rotate(scaleFactor)
+
+	this.hitCount += 1
   }
 
   private wallCollisionAction(wall: Wall) {
@@ -130,17 +160,17 @@ export class MainScene extends ex.Scene {
   }
 
 
-  update(engine: ex.Engine, delta: number) {
+  public update(engine: ex.Engine, delta: number) {
     super.update(engine, delta)
-    this.updatePaddle1(engine)
-    this.updatePaddle2(engine)
-    this.updateBallOut(engine)
+    this.updatePaddleTop(engine)
+    this.updatePaddleBottom(engine)
+	this.ball.updateSpeed(this.hitCount)
+	this.updateBallOut(engine)
 
     this.timer += delta
 
 
     if (this.timer >= TIME_COLLISION_DETECTION) {
-	  
 	  for(let [actor, callback] of [
 		[this.paddleTop, this.paddleCollisionAction.bind(this)],
 		[this.paddleBottom, this.paddleCollisionAction.bind(this)],
@@ -151,7 +181,5 @@ export class MainScene extends ex.Scene {
 	  }
     }
   }
-
+  
 }
-
-
