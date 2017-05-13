@@ -15262,11 +15262,11 @@ var mainScene = new mainScene_1.MainScene(game);
 game.addScene('mainScene', mainScene);
 game.goToScene('mainScene');
 game.start();
-//# sourceMappingURL=app.js.map
+
 
 });
 
-;require.register("ball.ts", function(exports, require, module) {
+require.register("ball.ts", function(exports, require, module) {
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -15300,11 +15300,11 @@ var Ball = (function (_super) {
     return Ball;
 }(ex.Actor));
 exports.Ball = Ball;
-//# sourceMappingURL=ball.js.map
+
 
 });
 
-;require.register("config.ts", function(exports, require, module) {
+require.register("config.ts", function(exports, require, module) {
 "use strict";
 var ex = require('excalibur');
 exports.WIN_WIDTH = 800;
@@ -15338,11 +15338,11 @@ exports.WALL_LEFT_COLOR = ex.Color.Yellow;
 exports.WALL_RIGHT_X = exports.WIN_WIDTH - (exports.WALL_WIDTH / 2);
 exports.WALL_RIGHT_Y = 0 + exports.WALL_HEIGHT / 2;
 exports.WALL_RIGHT_COLOR = ex.Color.Yellow;
-//# sourceMappingURL=config.js.map
+
 
 });
 
-;require.register("mainScene.ts", function(exports, require, module) {
+require.register("mainScene.ts", function(exports, require, module) {
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -15468,11 +15468,11 @@ var MainScene = (function (_super) {
     return MainScene;
 }(ex.Scene));
 exports.MainScene = MainScene;
-//# sourceMappingURL=mainScene.js.map
+
 
 });
 
-;require.register("paddle.ts", function(exports, require, module) {
+require.register("paddle.ts", function(exports, require, module) {
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -15507,11 +15507,11 @@ var Paddle = (function (_super) {
     return Paddle;
 }(ex.Actor));
 exports.Paddle = Paddle;
-//# sourceMappingURL=paddle.js.map
+
 
 });
 
-;require.register("score.ts", function(exports, require, module) {
+require.register("score.ts", function(exports, require, module) {
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -15538,11 +15538,11 @@ var Score = (function (_super) {
     return Score;
 }(ex.Label));
 exports.Score = Score;
-//# sourceMappingURL=score.js.map
+
 
 });
 
-;require.register("wall.ts", function(exports, require, module) {
+require.register("wall.ts", function(exports, require, module) {
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -15561,99 +15561,12 @@ var Wall = (function (_super) {
     return Wall;
 }(ex.Actor));
 exports.Wall = Wall;
-//# sourceMappingURL=wall.js.map
+
 
 });
 
-;require.alias("excalibur/dist/excalibur.js", "excalibur");require.register("___globals___", function(exports, require, module) {
+require.alias("excalibur/dist/excalibur.js", "excalibur");require.register("___globals___", function(exports, require, module) {
   
 });})();require('___globals___');
 
-/* jshint ignore:start */
-(function() {
-  var WebSocket = window.WebSocket || window.MozWebSocket;
-  var br = window.brunch = (window.brunch || {});
-  var ar = br['auto-reload'] = (br['auto-reload'] || {});
-  if (!WebSocket || ar.disabled) return;
-  if (window._ar) return;
-  window._ar = true;
-
-  var cacheBuster = function(url){
-    var date = Math.round(Date.now() / 1000).toString();
-    url = url.replace(/(\&|\\?)cacheBuster=\d*/, '');
-    return url + (url.indexOf('?') >= 0 ? '&' : '?') +'cacheBuster=' + date;
-  };
-
-  var browser = navigator.userAgent.toLowerCase();
-  var forceRepaint = ar.forceRepaint || browser.indexOf('chrome') > -1;
-
-  var reloaders = {
-    page: function(){
-      window.location.reload(true);
-    },
-
-    stylesheet: function(){
-      [].slice
-        .call(document.querySelectorAll('link[rel=stylesheet]'))
-        .filter(function(link) {
-          var val = link.getAttribute('data-autoreload');
-          return link.href && val != 'false';
-        })
-        .forEach(function(link) {
-          link.href = cacheBuster(link.href);
-        });
-
-      // Hack to force page repaint after 25ms.
-      if (forceRepaint) setTimeout(function() { document.body.offsetHeight; }, 25);
-    },
-
-    javascript: function(){
-      var scripts = [].slice.call(document.querySelectorAll('script'));
-      var textScripts = scripts.map(function(script) { return script.text }).filter(function(text) { return text.length > 0 });
-      var srcScripts = scripts.filter(function(script) { return script.src });
-
-      var loaded = 0;
-      var all = srcScripts.length;
-      var onLoad = function() {
-        loaded = loaded + 1;
-        if (loaded === all) {
-          textScripts.forEach(function(script) { eval(script); });
-        }
-      }
-
-      srcScripts
-        .forEach(function(script) {
-          var src = script.src;
-          script.remove();
-          var newScript = document.createElement('script');
-          newScript.src = cacheBuster(src);
-          newScript.async = true;
-          newScript.onload = onLoad;
-          document.head.appendChild(newScript);
-        });
-    }
-  };
-  var port = ar.port || 9485;
-  var host = br.server || window.location.hostname || 'localhost';
-
-  var connect = function(){
-    var connection = new WebSocket('ws://' + host + ':' + port);
-    connection.onmessage = function(event){
-      if (ar.disabled) return;
-      var message = event.data;
-      var reloader = reloaders[message] || reloaders.page;
-      reloader();
-    };
-    connection.onerror = function(){
-      if (connection.readyState) connection.close();
-    };
-    connection.onclose = function(){
-      window.setTimeout(connect, 1000);
-    };
-  };
-  connect();
-})();
-/* jshint ignore:end */
-
-;require('app');
-//# sourceMappingURL=app.js.map
+require('app');
